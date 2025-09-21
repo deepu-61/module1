@@ -1,0 +1,64 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Hover Animated Text',
+      home: Scaffold(
+        backgroundColor: Colors.white,
+        body: const Center(
+          child: HoverAnimatedText(),
+        ),
+      ),
+    );
+  }
+}
+
+class HoverAnimatedText extends StatefulWidget {
+  const HoverAnimatedText({super.key});
+
+  @override
+  State<HoverAnimatedText> createState() => _HoverAnimatedTextState();
+}
+
+class _HoverAnimatedTextState extends State<HoverAnimatedText> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) {
+        setState(() => _isHovered = true);
+      },
+      onExit: (_) {
+        setState(() => _isHovered = false);
+      },
+      child: AnimatedDefaultTextStyle(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+        style: TextStyle(
+          fontSize: _isHovered ? 36 : 24,
+          fontWeight: _isHovered ? FontWeight.bold : FontWeight.normal,
+          color: _isHovered ? Colors.purple : Colors.black,
+          shadows: _isHovered
+              ? [
+                  const Shadow(
+                      color: Colors.pinkAccent,
+                      blurRadius: 12,
+                      offset: Offset(2, 2)),
+                ]
+              : [],
+        ),
+        child: const Text("Hover over me!"),
+      ),
+    );
+  }
+}
